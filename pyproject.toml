@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "ModularAPI"
+version = "0.0.1"
+description = "TODO"
+authors = ["Deveaux Benoît <contact.flapili@gmail.com>", "Joffre Mathis <mariusjoffre@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+click = "^7.1.2"
+GitPython = "^3.1.13"
+alembic = "^1.5.5"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[tool.poetry.scripts]
+ModularAPI = "modularapi.cli:cli"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
