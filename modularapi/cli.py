@@ -418,7 +418,7 @@ def cli_modules_update(module_name):
     click.echo(f"{info_style} `{module_name}` has been updated.")
 
 
-# modules update <module_name>
+# modules update all
 @cli_modules_update.command(name="all")
 def cli_modules_update_all():
     """
