@@ -5,10 +5,12 @@ description = "TODO"
 authors = ["Deveaux Benoît <contact.flapili@gmail.com>", "Joffre Mathis <mariusjoffre@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.6.1"
 click = "^7.1.2"
 GitPython = "^3.1.13"
 alembic = "^1.5.5"
+psycopg2-binary = "^2.8.6"
+pydantic = "^1.8"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
