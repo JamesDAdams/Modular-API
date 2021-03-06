@@ -7,6 +7,7 @@ import time
 import json
 import re
 from pathlib import Path
+from importlib import import_module
 from contextlib import redirect_stdout
 
 import click
@@ -310,7 +311,6 @@ def cli_modules_add(github_repo):
     p = Path("./modules")
 
     if not p.is_dir():
-
         click.echo(
             f"{warning_style} The `modules` directory doesn't exist, creating one ..."
         )
@@ -452,6 +452,34 @@ def cli_modules_update_all():
                 )
 
 
+# modules build <module_name>
+@cli_modules.command(name="build")
+@click.argument("module_name")
+def cli_modules_build(module_name):
+    """
+    Build the module.
+    """
+    p = Path("./modules") / module_name
+    if not p.is_dir():
+        click.echo(f"{error_style} {module_name} doesn't exists !")
+        exit(1)
+    try:
+        sys.path.append(str(Path().resolve()))
+        module = import_module(f"modules.{module_name}.main")
+        build_hook = getattr(module, "build_module")
+        build_hook()
+
+    except ModuleNotFoundError:
+        click.echo(f"{error_style} {module_name} module doesn't have main.py !")
+        exit(1)
+    except AttributeError:
+        click.echo(f"{error_style} {module_name} module doesn't have build_module hook !")
+        exit(1)
+    except TypeError:
+        click.echo(f"{error_style} {module_name}.main.build_module is not callable !")
+        exit(1)
+
+
 # modules export <file.json>
 @cli_modules.command(name="export")
 @click.argument("output_file", type=click.File("w"))
@@ -521,7 +549,7 @@ def cli_projet_init(project_path):
         exit(1)
 
     # Initialization
-    click.echo(f"{info_style} Initializing a new projet at `{p}` ...")
+    click.echo(f"{info_style} Initializing a new project at `{p}` ...")
     (p / "modules").mkdir(parents=True)
 
     alembic_cfg = AlembicConfig(file_=p / "alembic.ini")
