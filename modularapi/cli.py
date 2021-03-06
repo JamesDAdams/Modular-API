@@ -5,6 +5,7 @@ import shutil
 import subprocess
 import time
 import json
+import re
 from pathlib import Path
 from contextlib import redirect_stdout
 
@@ -28,8 +29,8 @@ if sys.version_info.major < 3 or sys.version_info.minor < 6:
     click.secho("This framework need Python 3.6 or higher !", fg="red")
     exit(1)
 
-info_style = click.style("info", bg="white", fg="black", bold=True)
-success_style = click.style("success", bg="green", fg="black", bold=True)
+info_style = click.style("INFO", bg="white", fg="black", bold=True)
+success_style = click.style("SUCCESS", bg="green", fg="black", bold=True)
 warning_style = click.style("WARNING", bg="yellow", fg="black", bold=True)
 error_style = click.style("ERROR", bg="red", fg="black", bold=True)
 
@@ -38,7 +39,7 @@ error_style = click.style("ERROR", bg="red", fg="black", bold=True)
 @click.pass_context
 def cli(ctx):
     """
-    TODO
+    Manage your ModularAPI project with the CLI.
     """
     ctx.ensure_object(dict)
     ctx.obj["start_time"] = time.time()
@@ -314,7 +315,16 @@ def cli_modules_add(github_repo):
             f"{warning_style} The `modules` directory doesn't exist, creating one ..."
         )
     p.mkdir(parents=True, exist_ok=True)
-    repo_name = github_repo.split("/")[-1].split(".")[0]
+
+    m = re.match(r"https?://(.+\..+)/(?P<owner>.+)/(?P<name>.+)(\.git)?", github_repo)
+    if m:
+        repo_name = f"{m.group('owner')}-{m.group('name')}"
+    else:
+        # fallback name
+        if github_repo.endswith(".git"):
+            repo_name = github_repo.split("/")[-1].split(".")[:-1]
+        else:
+            repo_name = github_repo.split("/")[-1]
 
     if (p / repo_name).is_dir():
         click.echo(f"{error_style} The module `{repo_name}` is already installed !")
