@@ -473,7 +473,9 @@ def cli_modules_build(module_name):
         click.echo(f"{error_style} {module_name} module doesn't have main.py !")
         exit(1)
     except AttributeError:
-        click.echo(f"{error_style} {module_name} module doesn't have build_module hook !")
+        click.echo(
+            f"{error_style} {module_name} module doesn't have build_module hook !"
+        )
         exit(1)
     except TypeError:
         click.echo(f"{error_style} {module_name}.main.build_module is not callable !")
@@ -513,7 +515,7 @@ def cli_modules_import(input_file):
     for module, repo_urls in json.load(fp=input_file).items():
         try:
             git.Repo.clone_from(url=repo_urls[0], to_path=(p / module))
-        except git.exc.GitCommandError:
+        except (IndexError, git.exc.GitCommandError):
             click.secho(f"{warning_style} the module `{module}` couldn't be imported !")
 
 
