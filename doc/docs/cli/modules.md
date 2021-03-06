@@ -1,6 +1,6 @@
 ---
-title: Modules
-description: Modules related commands
+title: modules
+description: modules related commands
 ---
 
 # Modules
@@ -12,6 +12,9 @@ ModularAPI modules
 
 !!! warning
     You must be at the top of your project's hierarchy to use this command (`/path/example/myproject/`)
+
+!!! danger
+    Don't name your module all. This name is reserved.
 
 ## Add a module
 

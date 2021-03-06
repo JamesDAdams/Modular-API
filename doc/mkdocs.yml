@@ -1,11 +1,28 @@
 site_name: Modular API
 theme:
   name: material
+  palette:
+    primary: light blue
+
+repo_url: https://github.com/Modular-Lab/Modular-API
 
 extra_css:
   - stylesheets/extra.css
 
+
+nav:
+  - Welcome to ModularAPI: index.md
+  - Command Line Interface:
+    - init: cli/init.md
+    - modules: cli/modules.md
+    - db: cli/db.md
+  - FAQ:
+    - todo: faq/todo.md
+
+
+
 markdown_extensions:
+  - attr_list: 
   - admonition:
   - toc:
       permalink: true
