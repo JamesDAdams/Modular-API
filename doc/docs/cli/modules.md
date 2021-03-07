@@ -5,7 +5,7 @@ description: modules related commands
 
 # Modules
 
-Modules command can be call by using the following command :
+Modules command can be called by using the following command :
 ```shell
 ModularAPI modules
 ```
@@ -31,7 +31,7 @@ Add a module from a git remote to `./modules` folder.
 ??? info
     Under the hood it performs a git clone.
 
-## Update module
+## Update a module
 
 ```shell
 ModularAPI modules update <ModuleName>
@@ -57,7 +57,7 @@ Udate all modules in `./modules` folder with a git remote configured.
 !!! danger
     Don't name your module all.
 
-## Remove module
+## Remove a module
 
 ```shell
 ModularAPI modules remove <ModuleName>
@@ -80,3 +80,14 @@ ModularAPI modules list
 ```
 List all modules from current `./modules` folder.
 
+
+## Build your module
+```shell
+ModularAPI modules build <ModuleName>
+```
+Build a module from current `./modules` folder.
+
+
+!!! tip
+    - This is usefull if you have a frontend (example : nuxtjs)
+    - This usefull if you want to distribute your code.

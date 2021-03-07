@@ -466,7 +466,7 @@ def cli_modules_build(module_name):
     try:
         sys.path.append(str(Path().resolve()))
         module = import_module(f"modules.{module_name}.main")
-        build_hook = getattr(module, "build_module")
+        build_hook = getattr(module, "on_build")
         build_hook()
 
     except ModuleNotFoundError:

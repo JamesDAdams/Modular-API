@@ -12,16 +12,23 @@ extra_css:
 
 nav:
   - Welcome to ModularAPI: index.md
+  - Concept: concept.md
+  - Setting: setting.md
   - Command Line Interface:
     - init: cli/init.md
     - modules: cli/modules.md
     - db: cli/db.md
   - FAQ:
     - todo: faq/todo.md
+  - Roadmap:
+    - TO-DO: roadmap/todo.md
+    - Update: roadmap/update.md
 
 
 
 markdown_extensions:
+  - pymdownx.tasklist:
+      custom_checkbox: true
   - attr_list: 
   - admonition:
   - toc:
@@ -36,3 +43,6 @@ markdown_extensions:
   - pymdownx.caret:
   - pymdownx.mark:
   - pymdownx.tilde:
+  # - pymdownx.emoji:
+  #     emoji_index: !!python/name:materialx.emoji.twemoji
+  #     emoji_generator: !!python/name:materialx.emoji.to_svg

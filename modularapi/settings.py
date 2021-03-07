@@ -5,6 +5,8 @@ from functools import lru_cache
 
 from pydantic import BaseSettings, PostgresDsn
 
+print(os.environ["DOTENV_PATH"])
+
 
 class Setting(BaseSettings):
     ENVIRONMENT: str = "developpment"
@@ -13,11 +15,10 @@ class Setting(BaseSettings):
     LOG_TO_STDOUT: bool = True
     LOGGING_LEVEL: int = logging.INFO
 
-    class Config:
-        env_file = os.environ.get("DOTENV_PATH", ".env")
-        env_file_encoding = "utf-8"
-
 
 @lru_cache()
 def get_setting() -> Setting:
-    return Setting()
+    setting = Setting(
+        _env_file=os.environ.get("DOTENV_PATH", ".env"), _env_file_encoding="utf-8"
+    )
+    return setting
