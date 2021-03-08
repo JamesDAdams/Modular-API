@@ -5,7 +5,9 @@ import shutil
 import subprocess
 import time
 import json
+import re
 from pathlib import Path
+from importlib import import_module
 from contextlib import redirect_stdout
 
 import click
@@ -28,8 +30,8 @@ if sys.version_info.major < 3 or sys.version_info.minor < 6:
     click.secho("This framework need Python 3.6 or higher !", fg="red")
     exit(1)
 
-info_style = click.style("info", bg="white", fg="black", bold=True)
-success_style = click.style("success", bg="green", fg="black", bold=True)
+info_style = click.style("INFO", bg="white", fg="black", bold=True)
+success_style = click.style("SUCCESS", bg="green", fg="black", bold=True)
 warning_style = click.style("WARNING", bg="yellow", fg="black", bold=True)
 error_style = click.style("ERROR", bg="red", fg="black", bold=True)
 
@@ -38,7 +40,7 @@ error_style = click.style("ERROR", bg="red", fg="black", bold=True)
 @click.pass_context
 def cli(ctx):
     """
-    TODO
+    Manage your ModularAPI project with the CLI.
     """
     ctx.ensure_object(dict)
     ctx.obj["start_time"] = time.time()
@@ -309,12 +311,20 @@ def cli_modules_add(github_repo):
     p = Path("./modules")
 
     if not p.is_dir():
-
         click.echo(
             f"{warning_style} The `modules` directory doesn't exist, creating one ..."
         )
     p.mkdir(parents=True, exist_ok=True)
-    repo_name = github_repo.split("/")[-1].split(".")[0]
+
+    m = re.match(r"https?://(.+\..+)/(?P<owner>.+)/(?P<name>.+)(\.git)?", github_repo)
+    if m:
+        repo_name = f"{m.group('owner')}-{m.group('name')}"
+    else:
+        # fallback name
+        if github_repo.endswith(".git"):
+            repo_name = github_repo.split("/")[-1].split(".")[:-1]
+        else:
+            repo_name = github_repo.split("/")[-1]
 
     if (p / repo_name).is_dir():
         click.echo(f"{error_style} The module `{repo_name}` is already installed !")
@@ -418,7 +428,7 @@ def cli_modules_update(module_name):
     click.echo(f"{info_style} `{module_name}` has been updated.")
 
 
-# modules update <module_name>
+# modules update all
 @cli_modules_update.command(name="all")
 def cli_modules_update_all():
     """
@@ -440,6 +450,36 @@ def cli_modules_update_all():
                 click.echo(
                     f"{warning_style} the module `{module_name}` couldn't be updated !",
                 )
+
+
+# modules build <module_name>
+@cli_modules.command(name="build")
+@click.argument("module_name")
+def cli_modules_build(module_name):
+    """
+    Build the module.
+    """
+    p = Path("./modules") / module_name
+    if not p.is_dir():
+        click.echo(f"{error_style} {module_name} doesn't exists !")
+        exit(1)
+    try:
+        sys.path.append(str(Path().resolve()))
+        module = import_module(f"modules.{module_name}.main")
+        build_hook = getattr(module, "on_build")
+        build_hook()
+
+    except ModuleNotFoundError:
+        click.echo(f"{error_style} {module_name} module doesn't have main.py !")
+        exit(1)
+    except AttributeError:
+        click.echo(
+            f"{error_style} {module_name} module doesn't have build_module hook !"
+        )
+        exit(1)
+    except TypeError:
+        click.echo(f"{error_style} {module_name}.main.build_module is not callable !")
+        exit(1)
 
 
 # modules export <file.json>
@@ -475,7 +515,7 @@ def cli_modules_import(input_file):
     for module, repo_urls in json.load(fp=input_file).items():
         try:
             git.Repo.clone_from(url=repo_urls[0], to_path=(p / module))
-        except git.exc.GitCommandError:
+        except (IndexError, git.exc.GitCommandError):
             click.secho(f"{warning_style} the module `{module}` couldn't be imported !")
 
 
@@ -511,7 +551,7 @@ def cli_projet_init(project_path):
         exit(1)
 
     # Initialization
-    click.echo(f"{info_style} Initializing a new projet at `{p}` ...")
+    click.echo(f"{info_style} Initializing a new project at `{p}` ...")
     (p / "modules").mkdir(parents=True)
 
     alembic_cfg = AlembicConfig(file_=p / "alembic.ini")
