@@ -18,8 +18,8 @@ logger = logging.getLogger()
 
 if get_setting().LOG_TO_STDOUT:
     logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s | %(name)-20s | %(levelname)-8s | %(message)s",
+        level=get_setting().LOGGING_LEVEL,
+        format=get_setting().LOGGING_FMT,
     )
 
 
@@ -48,7 +48,9 @@ def get_app():
                         )
 
                 except ModuleNotFoundError:
-                    logger.error(f"Could not load module {module_path} missing main.py!")
+                    logger.error(
+                        f"Could not load module {module_path} missing main.py!"
+                    )
     else:
         logger.warning("There is no modules folder !")
 
