@@ -5,6 +5,7 @@ theme:
     primary: light blue
 
 repo_url: https://github.com/Modular-Lab/Modular-API
+edit_uri: edit/main/doc/docs/
 
 extra_css:
   - stylesheets/extra.css
