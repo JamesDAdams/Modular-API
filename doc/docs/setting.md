@@ -19,5 +19,3 @@ In order to easily manage differents types of configurations you can use env var
     ```
     TODO
     ```
-
-### 
