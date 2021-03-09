@@ -14,6 +14,7 @@ class Setting(BaseSettings):
 
     LOG_TO_STDOUT: bool = True
     LOGGING_LEVEL: int = logging.INFO
+    LOGGING_FMT: str = "%(asctime)s | %(name)-20s | %(levelname)-8s | %(message)s"
 
 
 @lru_cache()
