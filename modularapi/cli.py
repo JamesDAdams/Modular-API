@@ -580,15 +580,18 @@ def cli_projet_init(project_path):
     else:
         python_path = p / "venv" / "bin" / "python"
 
-    subprocess.run([python_path, "-m", "pip", "install", "-U", "pip"], check=True)
+    subprocess.run(
+        [str(python_path), "-m", "pip", "install", "-U", "pip"],
+        check=True,
+    )
     subprocess.run(
         [
-            python_path,
+            str(python_path),
             "-m",
             "pip",
             "install",
             "-r",
-            Path(__file__).parent / "venv_requirements.txt",
+            str(Path(__file__).parent / "venv_requirements.txt"),
         ],
         check=True,
     )
