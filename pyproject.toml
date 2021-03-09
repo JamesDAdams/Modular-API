@@ -1,8 +1,12 @@
 [tool.poetry]
 name = "ModularAPI"
 version = "0.0.1"
-description = "TODO"
+description = "A CLI Framework based on FastAPI using module-based architecture."
 authors = ["Deveaux Benoît <contact.flapili@gmail.com>", "Joffre Mathis <mariusjoffre@gmail.com>"]
+license = "MIT"
+homepage = "https://modular-lab.github.io/Modular-API/"
+repository = "https://github.com/Modular-Lab/Modular-API"
+include = ["LICENSE"]
 
 [tool.poetry.dependencies]
 python = "^3.6.1"
