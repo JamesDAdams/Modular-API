@@ -20,16 +20,30 @@ The core loads modules and ensure the coherence between the database and describ
 modules are the main concept of the framework, a module is basically a folder with Python scripts :
 ```
 my-project
-├───my_module
-│       db.py
-│       main.py
-│       requirements.txt
+│   .env
+│   alembic.ini
+│   requirements.txt
 │
-└───my_other_module
-        db.py
-        main.py
-        requirements.txt
+├───db_migrations
+│   │   env.py
+│   │   README
+│   └───script.py.mako
+│
+├───modules
+│   ├───module-a
+│   │       db.py
+│   │       main.py
+│   │       requirements.txt
+│   │
+│   └───module-b
+│           db.py
+│           main.py
+│           requirements.txt
+│
+└───venv
+    ├─── [...]
 ```
+
 The `main.py` is the entrypoint of the module, it have some hook :
 
 - `on_load(app: FastAPI)`

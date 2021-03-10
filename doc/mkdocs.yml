@@ -10,6 +10,12 @@ edit_uri: edit/main/doc/docs/
 extra_css:
   - stylesheets/extra.css
 
+extra:
+  social:
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/EFzdnHw2pH
+    - icon: fontawesome/brands/github
+      link: https://github.com/Modular-Lab/Modular-API
 
 nav:
   - Welcome to ModularAPI: index.md
@@ -24,8 +30,6 @@ nav:
   - Roadmap:
     - TO-DO: roadmap/todo.md
     - Update: roadmap/update.md
-
-
 
 markdown_extensions:
   - pymdownx.tasklist:
