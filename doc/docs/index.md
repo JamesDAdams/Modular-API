@@ -23,4 +23,4 @@ Modular API is a framework based on [FastAPI](https://fastapi.tiangolo.com/){tar
 ## Disadvantages
 
 - ### Only available for PostgreSQL (for now)
-Unfortunaly Gino is not yet compatible with Mysql but it's on the [Gino's roadmap](https://github.com/python-gino/gino/issues/381#issuecomment-629841406){target=_blank}
+Unfortunaly Gino is not yet compatible with Mysql but it's on the [Gino's roadmap](https://github.com/python-gino/gino/issues/381#issuecomment-629841406){target=_blank}.
