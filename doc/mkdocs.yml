@@ -3,6 +3,7 @@ theme:
   name: material
   palette:
     primary: light blue
+  logo: img/modular.svg
 
 repo_url: https://github.com/Modular-Lab/Modular-API
 edit_uri: edit/main/doc/docs/
@@ -29,7 +30,6 @@ nav:
     - todo: faq/todo.md
   - Roadmap:
     - TO-DO: roadmap/todo.md
-    - Update: roadmap/update.md
 
 markdown_extensions:
   - pymdownx.tasklist:
