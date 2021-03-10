@@ -16,7 +16,6 @@ import git
 from alembic import command
 from alembic.config import Config
 
-from modularapi.settings import get_setting
 from modularapi.utils import _on_rmtree_error
 
 
@@ -223,6 +222,8 @@ def cli_db_revision(
     """
     Create a new revision file.
     """
+    from modularapi.settings import get_setting
+
     alembic_cfg = AlembicConfig("alembic.ini")
     alembic_cfg.set_main_option("sqlalchemy.url", get_setting().PG_DNS)
     alembic_cfg.set_main_option("script_location", str(Path() / "db_migrations"))
@@ -555,7 +556,6 @@ def cli_projet_init(project_path):
     (p / "modules").mkdir(parents=True)
 
     alembic_cfg = AlembicConfig(file_=p / "alembic.ini")
-    # alembic_cfg.set_main_option("sqlalchemy.url", get_setting().PG_DNS)
     alembic_cfg.set_main_option("script_location", str(p / "db_migrations"))
 
     # initialize the db migrations
@@ -580,15 +580,18 @@ def cli_projet_init(project_path):
     else:
         python_path = p / "venv" / "bin" / "python"
 
-    subprocess.run([python_path, "-m", "pip", "install", "-U", "pip"], check=True)
+    subprocess.run(
+        [str(python_path), "-m", "pip", "install", "-U", "pip"],
+        check=True,
+    )
     subprocess.run(
         [
-            python_path,
+            str(python_path),
             "-m",
             "pip",
             "install",
             "-r",
-            Path(__file__).parent / "venv_requirements.txt",
+            str(Path(__file__).parent / "venv_requirements.txt"),
         ],
         check=True,
     )
