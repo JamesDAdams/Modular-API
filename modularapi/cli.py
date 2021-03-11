@@ -319,7 +319,7 @@ def cli_modules_add(github_repo):
 
     m = re.match(r"https?://(.+\..+)/(?P<owner>.+)/(?P<name>.+)(\.git)?", github_repo)
     if m:
-        repo_name = f"{m.group('owner')}-{m.group('name')}"
+        repo_name = f"{m.group('owner')}_{m.group('name')}"
     else:
         # fallback name
         if github_repo.endswith(".git"):
