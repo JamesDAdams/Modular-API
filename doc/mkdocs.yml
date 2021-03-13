@@ -22,14 +22,21 @@ nav:
   - Welcome to ModularAPI: index.md
   - Concept: concept.md
   - Setting: setting.md
+  - Basic Tutorial:
+    - Install ModularAPI: getting_started/installation.md
+    - Create your fisrt app: getting_started/fisrtapp.md
+    - Run your first app: getting_started/runapp.md
   - Command Line Interface:
-    - init: cli/init.md
-    - modules: cli/modules.md
-    - db: cli/db.md
-  - FAQ:
-    - todo: faq/todo.md
+    - Init: cli/init.md
+    - Modules: cli/modules.md
+    - DataBase: cli/db.md
+  - About:
+    - Frequently asked questions: about/question.md
+    - Other projects: about/otherprojects.md
   - Roadmap:
-    - TO-DO: roadmap/todo.md
+    - CLI: roadmap/cliroad.md
+    - Project: roadmap/projectroad.md
+  - Reference: reference.md
 
 markdown_extensions:
   - pymdownx.tasklist:
