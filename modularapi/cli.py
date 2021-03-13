@@ -52,13 +52,16 @@ def process_result(ctx, result, **kwargs):
     click.echo(f"{success_style} Done in {time.time() - ctx.obj['start_time']:.3f}s.")
 
 
-#util command
+# util command
 @cli.command(name="version")
 def cli_version():
     """
     Check the installed version of Modular-API
     """
-    click.echo(f"{info_style} Modular-API is installed : version {modularapi.__version__} ")
+    click.echo(
+        f"{info_style} Modular-API is installed : version {modularapi.__version__} "
+    )
+
 
 # group db
 @cli.group(name="db")
