@@ -532,7 +532,7 @@ def cli_modules_import(input_file):
             click.secho(f"{warning_style} the module `{module}` couldn't be imported !")
 
 
-# module update list
+# modules update list
 @cli_modules.command(name="list")
 def cli_modules_list():
     """
@@ -546,6 +546,44 @@ def cli_modules_list():
         click.secho("\n".join(f"{m} is installed" for m in modules))
     else:
         click.secho(f"{warning_style} There is no module installed !")
+
+
+# modules create <module_name> --readme=False
+@cli_modules.command(name="create")
+@click.argument("module_name")
+@click.option(
+    "--readme",
+    is_flag=True,
+    help="Create a readme.md in your module",
+)
+def cli_modules_create(module_name, readme):
+    """
+    Create a module from the official template
+    """
+
+    template_url = "https://github.com/Modular-Lab/module_template.git"
+
+    p = Path("./modules")
+
+    p.mkdir(exist_ok=True)
+
+    if (p / module_name).is_dir():
+        click.echo(f"{error_style} The module already exists !")
+        exit(1)
+
+    try:
+        git.Repo.clone_from(url=template_url, to_path=p / module_name)
+    except git.exc.CommandError:
+        click.echo(f"{error_style} Unable to clone template !")
+        exit(1)
+
+    shutil.rmtree(p / module_name / ".git", onerror=_on_rmtree_error)
+    (p / module_name / "LICENSE").unlink(missing_ok=True)
+
+    if not readme:
+        (p / module_name / "readme.md").unlink(missing_ok=True)
+
+    click.echo(f"{success_style} The module has been created in `{p / module_name}`.")
 
 
 # init <project_name>
