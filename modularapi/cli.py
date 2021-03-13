@@ -254,7 +254,7 @@ def cli_db_revision(
 
 # db show <rev>
 @cli_db.command(name="show")
-@click.argument("revisions", required=True)
+@click.argument("revisions")
 def cli_db_show(revisions):
     """
     Show the revision(s) denoted by the given symbol.
@@ -316,7 +316,7 @@ def cli_modules():
 
 # modules add <git_remote_link>
 @cli_modules.command(name="add")
-@click.argument("github_repo", type=click.STRING)
+@click.argument("github_repo")
 def cli_modules_add(github_repo):
     """
     Add a module from a git remote url ( github / gitlab / ect... ).
