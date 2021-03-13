@@ -19,8 +19,20 @@ Then, check everything is correctly installed.
 ModularAPI version
 ```
 
-???+ Excepted output
+???+ Output
     ```
     Modular-API is installed : version X.X.X
     ```
 
+# Create your first project
+```shell
+ModularAPI init <project_name>
+
+cd <project_name>
+```
+Now, you are ready to start with ModularAPI.
+
+# Optional Environment configuration
+To be able to use Modular-API in different contexts you must configure your `DOTENV_PATH` and your `.env`.
+
+See the [Settings section](/setting){target=_blank} for details
