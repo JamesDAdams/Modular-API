@@ -31,7 +31,7 @@ nav:
     - Modules: cli/modules.md
     - DataBase: cli/db.md
   - About:
-    - Frequently asked question: about/question.md
+    - Frequently asked questions: about/question.md
     - Other projects: about/otherprojects.md
   - Roadmap:
     - CLI: roadmap/cliroad.md
