@@ -1,5 +1,7 @@
 # coding: utf-8
+import asyncio
 import logging
+import threading
 from pathlib import Path
 from importlib import import_module
 
@@ -28,24 +30,30 @@ def get_app():
 
     modules = tuple(Path().glob("modules/*"))
     if modules:
-        for path in modules:
-            if path.is_dir():
-                # "modules/<module_name>/" -> "modules.<module_name>"
-                module_path = ".".join(path.parts)
+        for module in modules:
+            if module.is_dir():
+                module_path = ".".join(module.parts)
                 logger.info(f"loading module [{module_path}]")
 
                 try:
-                    module = import_module(".".join([module_path, "main"]))
-                    try:
-                        getattr(module, "on_load")(app)
-                        # load "db.py" if it exists and it's a file
-                        if (path / "db.py").is_file():
-                            import_module(".".join([module_path, "db"]))
+                    m = import_module(".".join([module_path, "main"]))
+                    on_load_hook = getattr(m, "on_load", None)
+                    if on_load_hook is not None:
 
-                    except AttributeError:
-                        logger.error(
-                            f"Could not load module {module_path} ! missing entrypoint !"
-                        )
+                        # check if it's an awaitable
+                        if asyncio.iscoroutinefunction(on_load_hook):
+                            t = threading.Thread(
+                                target=asyncio.run, args=[on_load_hook(app)]
+                            )
+                            t.start()
+                            t.join()
+                            # todo raise the exception from the thread
+                        else:
+                            on_load_hook(app)
+
+                    # load "db.py" if it exists and it's a file
+                    if (module / "db.py").is_file():
+                        import_module(".".join([module_path, "db"]))
 
                 except ModuleNotFoundError:
                     logger.error(
