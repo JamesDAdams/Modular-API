@@ -100,9 +100,6 @@ You can declare your API endpoint or call whatever code you want.
 !!! info
     Under the hood it run `asyncio.run` in a new `thread` to ensure the `on_load` hook is finished before continue loading others modules or start the app
 
-!!! tips
-    According to the thing
-
 !!! warning
     - Given that we have to use thread to correctly handle async on_load hook's end you must use a classic (not async) function if you want to use the Uvicorn/Gunicorn's event loop
     - For now possibles raised exceptions that could happen in the coroutine are not traced back to the main thread (but they are printed in stderr) !

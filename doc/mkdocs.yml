@@ -37,6 +37,7 @@ nav:
     - CLI: roadmap/cliroad.md
     - Project: roadmap/projectroad.md
   - Reference: reference.md
+  - Changelog: changelog.md
 
 markdown_extensions:
   - pymdownx.tasklist:
