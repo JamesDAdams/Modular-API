@@ -17,7 +17,7 @@ import git
 from alembic import command
 from alembic.config import Config
 
-from modularapi.utils import _on_rmtree_error
+from modularapi.utils import _on_rmtree_error, _arg_to_kwarg
 
 
 class AlembicConfig(Config):
@@ -492,6 +492,38 @@ def cli_modules_build(module_name):
         exit(1)
     except TypeError:
         click.echo(f"{error_style} {module_name}.main.build_module is not callable !")
+        exit(1)
+
+
+@cli_modules.command(name="run")
+@click.argument("module_name")
+@click.argument("hook_name")
+@click.argument("arg", nargs=-1)
+@click.argument("kwargs", nargs=-1)
+def cli_modules_build(module_name, hook_name, ar, kw):
+    """
+    Custom module hook handler.
+    """
+    p = Path("./modules") / module_name
+    if not p.is_dir():
+        click.echo(f"{error_style} {module_name} doesn't exists !")
+        exit(1)
+    try:
+        sys.path.append(str(Path().resolve()))
+        module = import_module(f"modules.{module_name}.main")
+        build_hook = getattr(module, hook_name)
+        build_hook(ar, _arg_to_kwargs(kw))
+
+    except ModuleNotFoundError:
+        click.echo(f"{error_style} {module_name} module doesn't have main.py !")
+        exit(1)
+    except AttributeError:
+        click.echo(
+            f"{error_style} {module_name} module doesn't have {hook_name} hook !"
+        )
+        exit(1)
+    except TypeError:
+        click.echo(f"{error_style} {module_name}.main.{hook_name} is not callable !")
         exit(1)
 
 

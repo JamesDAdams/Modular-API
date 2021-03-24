@@ -21,3 +21,6 @@ def _on_rmtree_error(func, path, exc_info):
         func(path)
     else:
         raise exc_info
+
+def _arg_to_kwarg(args):
+    kw = {arg.split("=")[0]: arg.split("=")[1] for arg in args}
